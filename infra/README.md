@@ -42,16 +42,13 @@ module "vpc" {
   enable_dns_hostnames = true
   enable_dns_support   = true
 
-  ### Cấu hình S3 Gateway Endpoint (Miễn phí & Bảo mật)
-  ### Giúp Lambda trong private subnet truy cập được S3
-  enable_s3_endpoint      = true
-  s3_endpoint_type        = "Gateway"
-  
-  ### Tự động thêm route vào route table của private subnet
-  s3_endpoint_private_access = true 
-
   tags = var.global_tags
 }
+
+resources "vpc_endpoint" "vpc_gateway_endpoint_s3"{
+    vpc_id = module.vpc.vpc_id
+    
+} 
 
 ## 2. Compute & API (Modules)
 • AWS Lambda (Module):
