@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import './App.css'
-import { AppCtx } from './context/AppContext'
+import { AppCtx, AppProvider } from './context/AppContext'
 import MainPage from './pages/main/MainPage'
 import LoginPage from './pages/login/LoginPage'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
@@ -17,9 +17,9 @@ function AppContent() {
 function App() {
   return (
     <Router>
-      <AppCtx>
+      <AppProvider>
         <AppContent />
-      </AppCtx>
+      </AppProvider>
     </Router>
   )
 }
