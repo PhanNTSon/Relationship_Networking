@@ -24,7 +24,7 @@ import {
  * @param {(personId: string|number) => void} props.seePersonDetail - Hàm callback được gọi khi người dùng muốn xem chi tiết (ví dụ: click vào marker).
  * @returns {JSX.Element}
  */
-const VietnamMap = ({ width = 800, height = 600, personList, seePersonDetail }) => {
+const VietnamMap = ({ width = 800, height = 600, personList = [], seePersonDetail }) => {
     const [position, setPosition] = useState({
         coordinates: [106, 16],
         zoom: 1,

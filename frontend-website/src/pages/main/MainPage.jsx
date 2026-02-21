@@ -3,12 +3,7 @@ import VietnamMap from "../../components/VietnamMap";
 import "./MainPage.css";
 import { AppCtx } from "../../context/AppContext";
 import axios from "axios"
-
-
-
-const getPersonById = (id) => {
-    return persons.find(p => p.id === id)
-}
+import { mockPersons } from "./mock";
 
 export default function MainPage() {
 
@@ -18,6 +13,7 @@ export default function MainPage() {
     const [openDetail, setOpenDetail] = useState(false)
 
     const { jwt, role, persons, setPersons } = useContext(AppCtx)
+    const [rawPersons, setRawPersons] = useState([]);
 
 
     useEffect(() => {
@@ -37,34 +33,19 @@ export default function MainPage() {
     }, [])
 
     useEffect(() => {
-
+        fetchPersons()
     }, [])
 
     function fetchPersons() {
 
         axios.get("")
             .then(res => {
-
+                setRawPersons(mockPersons);
+                setPersons(mockPersons.map(person => [person.id, person]))
             })
             .catch((err) => {
 
             })
-    }
-
-
-    function searchPerson() {
-        return (
-            <div id="search-tool">
-
-            </div>
-        )
-    }
-
-    function addPerson() {
-        return (
-            <div id="add-tool"></div>
-
-        )
     }
 
     return (
@@ -74,7 +55,7 @@ export default function MainPage() {
                     <VietnamMap
                         width={size.width}
                         height={size.height}
-                        personList={persons}
+                        personList={rawPersons}
                         seePersonDetail={setSelectedPersonId}
                     />
 
@@ -96,19 +77,61 @@ export default function MainPage() {
                     <div className={`section ${selectedPersonId ? "" : "hidden"} ${openDetail ? "showDetail" : ""}`} id="person-detail-container">
                         <button onClick={() => setOpenDetail(!openDetail)}><i className="material-icons">{openDetail ? "keyboard_arrow_down" : "keyboard_arrow_up"}</i></button>
                         <div id="person-info">
-                            <div className="info-stack" >
-                                {/* <image href="" /> */}
-                                <h3>Name:</h3>
-                                <p>Gender:</p>
-                                <p>BirthDate: - DeathDate:</p>
-                                <p>Location:</p>
-                            </div>
+
+                            {
+                                selectedPersonId && (() => {
+                                    const person = persons.find(p => p[0] === selectedPersonId)[1]
+
+                                    console.log("person", person)
+                                    console.log("persons", persons)
+                                    console.log("selectedPersonId", selectedPersonId)
+
+                                    const groupRelationshipbyType = person.relationships.reduce((acc, rel) => {
+                                        const otherPerson = persons.find(p => p[0] === rel.id)[1]
+                                        if (!acc[rel.type]) {
+                                            acc[rel.type] = []
+                                        }
+                                        acc[rel.type].push(otherPerson);
+                                        return acc
+                                    }, {});
+                                    return (
+                                        <>
+                                            <div className="info-stack" >
+                                                {/* <image href="" /> */}
+                                                <h3>Name: {person.name}</h3>
+                                                <p>Gender: {person.gender}</p>
+                                                <p>BirthDate: - DeathDate:</p>
+                                                <p>Location: {person.lon} - {person.lat}</p>
+                                            </div>
+
+                                            {
+                                                Object.entries(groupRelationshipbyType).map(([type, personList]) => (
+                                                    <div className="info-stack">
+                                                        <h4>{type}:</h4>
+                                                        <div className="other-person-container">
+                                                            {
+                                                                personList.map(p => (
+                                                                    <div className="other-person">
+                                                                        <img src="" alt="" />
+                                                                        <p>{p.name}</p>
+                                                                    </div>
+                                                                ))
+                                                            }
+                                                        </div>
+
+                                                    </div>
+                                                ))
+                                            }
+                                        </>
+                                    );
+                                })()
+                            }
                         </div>
 
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
