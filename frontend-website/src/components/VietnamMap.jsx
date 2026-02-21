@@ -181,7 +181,7 @@ const VietnamMap = ({ width = 800, height = 600, personList = [], seePersonDetai
 
                                 <circle r={makerTotalRadius} fill={makerFill} />
                                 <image
-                                    href={maker.imgUrl}
+                                    href={maker.imgUrl ? maker.imgUrl : "https://placehold.co/600x400"}
                                     x={-makerImgRadius} y={-makerImgRadius}
                                     width={makerImgRadius * 2} height={makerImgRadius * 2}
                                     clipPath={`url(#clip-${maker.key})`}

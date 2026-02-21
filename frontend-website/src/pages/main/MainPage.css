@@ -59,11 +59,11 @@
     padding: 5px;
 }
 
-#person-info img{
+#person-info img {
     border-radius: 50%;
 }
 
-#detail{
+#detail {
     display: flex;
     flex-direction: row;
     padding: 5px 3px;
@@ -71,7 +71,7 @@
     justify-content: space-evenly;
 }
 
-#detail img{
+#detail img {
     width: 25%;
 }
 
@@ -84,27 +84,30 @@
     padding: 5px 3px;
 }
 
-.info-stack .other-person-container{
+.info-stack .other-person-container {
     width: 100%;
     display: flex;
     flex-direction: row;
     overflow-x: scroll;
+    scroll-behavior: smooth;
 }
 
-.info-stack .other-person{
+.info-stack .other-person {
     width: calc(100% / 3);
     padding: 3px 5px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    flex: 0 0 calc(100%/3);
+    box-sizing: border-box;
 }
 
-.other-person img{
+.other-person img {
     width: 50%;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 430px) {
 
     #person-detail-container {
         bottom: 0;
@@ -142,4 +145,40 @@
 
 }
 
-@media screen and (max-width: 1440px) {}
+@media screen and (max-width: 2570px) {
+    #person-detail-container {
+        top: 0;
+        bottom: 0;
+        right: 0;
+        width: 40vw;
+        transform: translateX(calc(40vw - 50px));
+        transition: transform 0.5s ease-in-out;
+        background-color: aliceblue;
+        border-radius: 15px 0 0 15px;
+        display: flex;
+        flex-direction: row;
+    }
+
+    #person-detail-container.hidden {
+        pointer-events: none;
+        transform: translateX(40vw);
+        transition: transform 0.5s ease-in-out;
+    }
+
+    #person-detail-container.showDetail {
+        transform: translateX(0);
+        transition: transform 0.5s ease-in-out;
+    }
+
+    #person-detail-container button {
+        width: 50px;
+        height: 100%;
+        border-radius: 15px 0 0 15px;
+        border: none;
+    }
+
+    #person-info {
+        width: calc(40vw - 50px);
+        height: 100%;
+    }
+}

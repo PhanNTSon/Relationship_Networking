@@ -95,7 +95,7 @@ export default function MainPage() {
                                     return (
                                         <>
                                             <div id="detail">
-                                                <img src={`${person.avatar}`} alt={`${person.name}`} />
+                                                <img src={`${person.avatar ? person.avatar : "https://placehold.co/600x400"}`} alt={`${person.name}`} />
                                                 <div>
                                                     <h3>{person.name}</h3>
                                                     <p>{person.gender === "male" ? "Nam" : "Nữ"}</p>
@@ -115,7 +115,7 @@ export default function MainPage() {
                                                                         setZoomMode("panel");
                                                                         setSelectedPersonId(p.id);
                                                                     }}>
-                                                                        <img src={`${p.avatar}`} alt="" />
+                                                                        <img src={`${p.avatar ? p.avatar : "https://placehold.co/600x400"}`} alt="" />
                                                                         <p>{p.name}</p>
                                                                     </div>
                                                                 ))
