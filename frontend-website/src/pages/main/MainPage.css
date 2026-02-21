@@ -26,9 +26,76 @@
 #tool-layer {
     z-index: 1;
     pointer-events: none;
+    height: 100%;
+    width: 100%;
 
 }
 
-@media screen and (max-width: 768px) {}
+#tool-layer .section {
+    position: absolute;
+}
+
+#dashboard-btn,
+#tool-btns,
+#person-detail-container {
+    pointer-events: all;
+}
+
+#tool-btns {
+    top: 5px;
+    right: 5px;
+    transform: translateX(0);
+    transition: transform 0.3s ease-in-out;
+}
+
+#tool-btns.hidden {
+    pointer-events: none;
+    transform: translateX(100px);
+    transition: transform 0.3s ease-in-out;
+}
+
+#person-info {
+    overflow-y: scroll;
+    padding: 5px;
+}
+
+@media screen and (max-width: 768px) {
+
+
+    #person-detail-container {
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 30vh;
+        transform: translateY(calc(30vh - 50px));
+        transition: transform 0.5s ease-in-out;
+        background-color: aliceblue;
+        border-radius: 15px 15px 0 0;
+
+    }
+
+    #person-detail-container.hidden{
+        pointer-events: none;
+        transform: translateY(30vh);
+        transition: transform 0.5s ease-in-out;
+    }
+
+    #person-detail-container.showDetail {
+        transform: translateY(0);
+        transition: transform 0.5s ease-in-out;
+    }
+
+    #person-detail-container button {
+        height: 50px;
+        width: 100%;
+        border-radius: 15px 15px 0 0;
+        border: none;
+    }
+
+    #person-info {
+        height: calc(30vh - 50px);
+    }
+
+}
 
 @media screen and (max-width: 1440px) {}

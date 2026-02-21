@@ -87,7 +87,8 @@ const VietnamMap = ({ width = 800, height = 600, personList, seePersonDetail }) 
                 {
                     makers.map(
                         (maker) => (
-                            <Marker key={maker.key} coordinates={maker.coordinates}>
+                            <Marker key={maker.key} coordinates={maker.coordinates}
+                                onClick={() => seePersonDetail(maker.key)}>
 
                                 {/* Định nghĩa phần ảnh được chèn vào*/}
                                 <defs>
@@ -104,7 +105,6 @@ const VietnamMap = ({ width = 800, height = 600, personList, seePersonDetail }) 
                                     clipPath={`url(#clip-${maker.key})`}
                                     preserveAspectRatio="xMidYMid slice"
                                 />
-
 
                             </Marker>
                         )

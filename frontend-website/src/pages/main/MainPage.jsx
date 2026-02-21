@@ -2,50 +2,23 @@ import { React, useContext, useState, useEffect, useRef } from "react";
 import VietnamMap from "../../components/VietnamMap";
 import "./MainPage.css";
 import { AppCtx } from "../../context/AppContext";
+import axios from "axios"
+
+
+
+const getPersonById = (id) => {
+    return persons.find(p => p.id === id)
+}
 
 export default function MainPage() {
-    const { jwt, role, setPersons } = useContext(AppCtx)
 
     const containerRef = useRef(null)
     const [size, setSize] = useState({ width: 0, height: 0 })
+    const [selectedPersonId, setSelectedPersonId] = useState(null)
+    const [openDetail, setOpenDetail] = useState(false)
 
-    const persons = [
-        {
-            id: "user_001",
-            avatar: "https://i.pravatar.cc/150?img=11", // Ảnh giả lập từ pravatar
-            name: "Nguyễn Văn A",
-            lon: 105.8542, // Hà Nội
-            lat: 21.0285
-        },
-        {
-            id: "user_002",
-            avatar: "https://i.pravatar.cc/150?img=32",
-            name: "Trần Thị B",
-            lon: 106.6297, // TP. Hồ Chí Minh
-            lat: 10.8231
-        },
-        {
-            id: "user_003",
-            avatar: "https://i.pravatar.cc/150?img=68",
-            name: "Lê Văn C",
-            lon: 108.2068, // Đà Nẵng
-            lat: 16.0471
-        },
-        {
-            id: "user_004",
-            avatar: "https://i.pravatar.cc/150?img=47",
-            name: "Phạm Thị D",
-            lon: 105.7469, // Cần Thơ
-            lat: 10.0452
-        },
-        {
-            id: "user_005",
-            avatar: "https://i.pravatar.cc/150?img=12",
-            name: "Hoàng Văn E",
-            lon: 109.1967, // Nha Trang (Khánh Hòa)
-            lat: 12.2388
-        }
-    ]
+    const { jwt, role, persons, setPersons } = useContext(AppCtx)
+
 
     useEffect(() => {
         function updateSize() {
@@ -67,6 +40,33 @@ export default function MainPage() {
 
     }, [])
 
+    function fetchPersons() {
+
+        axios.get("")
+            .then(res => {
+
+            })
+            .catch((err) => {
+
+            })
+    }
+
+
+    function searchPerson() {
+        return (
+            <div id="search-tool">
+
+            </div>
+        )
+    }
+
+    function addPerson() {
+        return (
+            <div id="add-tool"></div>
+
+        )
+    }
+
     return (
         <div id="main-page">
             <div id="container" ref={containerRef}>
@@ -75,17 +75,42 @@ export default function MainPage() {
                         width={size.width}
                         height={size.height}
                         personList={persons}
-                        seePersonDetail={seePersonDetail}
+                        seePersonDetail={setSelectedPersonId}
                     />
 
                 </div>
-                <div className="layers" id="tool-layer"></div>
+                <div className="layers" id="tool-layer">
+                    {
+                        role === "admin" ? (
+                            <div className="section" id="dashboard-btn">
+
+                            </div>
+                        ) : (
+                            <></>
+                        )
+                    }
+                    <div className={`section ${selectedPersonId ? "hidden" : ""}`} id="tool-btns">
+                        <button><i className="material-icons">search</i></button>
+                        <button><i className="material-icons">add</i></button>
+                    </div>
+                    <div className={`section ${selectedPersonId ? "" : "hidden"} ${openDetail ? "showDetail" : ""}`} id="person-detail-container">
+                        <button onClick={() => setOpenDetail(!openDetail)}><i className="material-icons">{openDetail ? "keyboard_arrow_down" : "keyboard_arrow_up"}</i></button>
+                        <div id="person-info">
+                            <div className="info-stack" >
+                                {/* <image href="" /> */}
+                                <h3>Name:</h3>
+                                <p>Gender:</p>
+                                <p>BirthDate: - DeathDate:</p>
+                                <p>Location:</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
         </div>
     )
 }
 
-function seePersonDetail(person) {
 
-}
 
