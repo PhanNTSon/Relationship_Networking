@@ -14,6 +14,7 @@ export default function MainPage() {
 
     const { jwt, role, persons, setPersons } = useContext(AppCtx)
     const [rawPersons, setRawPersons] = useState([]);
+    const [zoomMode, setZoomMode] = useState(null);
 
 
     useEffect(() => {
@@ -56,36 +57,33 @@ export default function MainPage() {
                         width={size.width}
                         height={size.height}
                         personList={rawPersons}
-                        seePersonDetail={setSelectedPersonId}
+                        seePersonDetail={(id) => {
+                            setZoomMode("marker");
+                            setSelectedPersonId(id);
+                        }}
+                        selectedPersonId={selectedPersonId}
+                        zoomMode={zoomMode}
                     />
 
                 </div>
                 <div className="layers" id="tool-layer">
                     {
-                        role === "admin" ? (
+                        role === "admin" && (
                             <div className="section" id="dashboard-btn">
 
                             </div>
-                        ) : (
-                            <></>
                         )
                     }
                     <div className={`section ${selectedPersonId ? "hidden" : ""}`} id="tool-btns">
                         <button><i className="material-icons">search</i></button>
                         <button><i className="material-icons">add</i></button>
                     </div>
-                    <div className={`section ${selectedPersonId ? "" : "hidden"} ${openDetail ? "showDetail" : ""}`} id="person-detail-container">
+                    <div className={`section ${selectedPersonId ? "" : "hidden"} ${openDetail && selectedPersonId ? "showDetail" : ""}`} id="person-detail-container">
                         <button onClick={() => setOpenDetail(!openDetail)}><i className="material-icons">{openDetail ? "keyboard_arrow_down" : "keyboard_arrow_up"}</i></button>
                         <div id="person-info">
-
                             {
                                 selectedPersonId && (() => {
                                     const person = persons.find(p => p[0] === selectedPersonId)[1]
-
-                                    console.log("person", person)
-                                    console.log("persons", persons)
-                                    console.log("selectedPersonId", selectedPersonId)
-
                                     const groupRelationshipbyType = person.relationships.reduce((acc, rel) => {
                                         const otherPerson = persons.find(p => p[0] === rel.id)[1]
                                         if (!acc[rel.type]) {
@@ -96,23 +94,28 @@ export default function MainPage() {
                                     }, {});
                                     return (
                                         <>
-                                            <div className="info-stack" >
-                                                {/* <image href="" /> */}
-                                                <h3>Name: {person.name}</h3>
-                                                <p>Gender: {person.gender}</p>
-                                                <p>BirthDate: - DeathDate:</p>
-                                                <p>Location: {person.lon} - {person.lat}</p>
+                                            <div id="detail">
+                                                <img src={`${person.avatar}`} alt={`${person.name}`} />
+                                                <div>
+                                                    <h3>{person.name}</h3>
+                                                    <p>{person.gender === "male" ? "Nam" : "Nữ"}</p>
+                                                    <p>BirthDate: - DeathDate:</p>
+                                                    <p>Location: {person.lon} - {person.lat}</p>
+                                                </div>
                                             </div>
 
                                             {
                                                 Object.entries(groupRelationshipbyType).map(([type, personList]) => (
-                                                    <div className="info-stack">
+                                                    <div className="info-stack" key={type}>
                                                         <h4>{type}:</h4>
                                                         <div className="other-person-container">
                                                             {
                                                                 personList.map(p => (
-                                                                    <div className="other-person">
-                                                                        <img src="" alt="" />
+                                                                    <div className="other-person" key={p.id} onClick={() => {
+                                                                        setZoomMode("panel");
+                                                                        setSelectedPersonId(p.id);
+                                                                    }}>
+                                                                        <img src={`${p.avatar}`} alt="" />
                                                                         <p>{p.name}</p>
                                                                     </div>
                                                                 ))
@@ -130,6 +133,9 @@ export default function MainPage() {
 
                     </div>
                 </div>
+                {/* <div className="layers" id="loader-layer">
+                    
+                </div> */}
             </div>
         </div >
     )

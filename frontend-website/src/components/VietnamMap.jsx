@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     ComposableMap,
     Geographies,
@@ -24,7 +24,7 @@ import {
  * @param {(personId: string|number) => void} props.seePersonDetail - Hàm callback được gọi khi người dùng muốn xem chi tiết (ví dụ: click vào marker).
  * @returns {JSX.Element}
  */
-const VietnamMap = ({ width = 800, height = 600, personList = [], seePersonDetail }) => {
+const VietnamMap = ({ width = 800, height = 600, personList = [], seePersonDetail, selectedPersonId, zoomMode }) => {
     const [position, setPosition] = useState({
         coordinates: [106, 16],
         zoom: 1,
@@ -42,6 +42,87 @@ const VietnamMap = ({ width = 800, height = 600, personList = [], seePersonDetai
             coordinates: [person.lon, person.lat]
         }
     })
+
+    useEffect(() => {
+        if (!selectedPersonId) return;
+
+        const person = personList.find(p => p.id === selectedPersonId);
+        if (!person) return;
+
+        const coords = [person.lon, person.lat];
+
+        if (zoomMode === "marker") {
+            // chỉ zoom đến 4 nếu chưa đủ
+            if (position.zoom < 4) {
+                setPosition({
+                    coordinates: coords,
+                    zoom: 4
+                });
+            } else {
+                setPosition(prev => ({
+                    ...prev,
+                    coordinates: coords
+                }));
+            }
+        }
+
+        if (zoomMode === "panel") {
+            zoomOutThenIn(coords);
+        }
+
+    }, [selectedPersonId]);
+
+    function handleMarkerClick(marker) {
+        setActiveMarker(marker.key);
+        seePersonDetail(marker.key);
+    }
+
+    function zoomOutThenIn(targetCoordinates) {
+        const startZoom = position.zoom;
+        const targetZoom = 4;
+        const zoomStep = 0.15;
+
+        let zoomLevel = startZoom;
+
+        // ===== PHASE 1: giảm về 1 =====
+        const zoomOutInterval = setInterval(() => {
+            zoomLevel -= zoomStep;
+
+            if (zoomLevel <= 1) {
+                // zoomLevel = 1;
+                clearInterval(zoomOutInterval);
+
+                // Sau khi về 1 mới bắt đầu phase 2
+                startZoomIn();
+            }
+
+            setPosition(prev => ({
+                ...prev,
+                zoom: zoomLevel
+            }));
+
+        }, 30);
+
+        function startZoomIn() {
+            let zoomInLevel = 1;
+
+            const zoomInInterval = setInterval(() => {
+                zoomInLevel += zoomStep;
+
+                if (zoomInLevel >= targetZoom) {
+                    zoomInLevel = targetZoom;
+                    clearInterval(zoomInInterval);
+                }
+
+                setPosition({
+                    coordinates: targetCoordinates,
+                    zoom: zoomInLevel
+                });
+
+            }, 30);
+        }
+    }
+
     return (
         <ComposableMap
             projection="geoMercator"
@@ -80,6 +161,7 @@ const VietnamMap = ({ width = 800, height = 600, personList = [], seePersonDetai
                                     hover: { fill: "#B2EBF2", outline: "none" },
                                     pressed: { outline: "none" },
                                 }}
+                                onClick={() => seePersonDetail(null)}
                             />
                         ))
                     }
@@ -88,7 +170,7 @@ const VietnamMap = ({ width = 800, height = 600, personList = [], seePersonDetai
                     makers.map(
                         (maker) => (
                             <Marker key={maker.key} coordinates={maker.coordinates}
-                                onClick={() => seePersonDetail(maker.key)}>
+                                onClick={() => handleMarkerClick(maker)}>
 
                                 {/* Định nghĩa phần ảnh được chèn vào*/}
                                 <defs>
@@ -97,7 +179,7 @@ const VietnamMap = ({ width = 800, height = 600, personList = [], seePersonDetai
                                     </clipPath>
                                 </defs>
 
-                                <circle r={makerTotalRadius} fill={makerFill} stroke="#fff" strokeWidth={1} />
+                                <circle r={makerTotalRadius} fill={makerFill} />
                                 <image
                                     href={maker.imgUrl}
                                     x={-makerImgRadius} y={-makerImgRadius}
