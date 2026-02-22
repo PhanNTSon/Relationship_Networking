@@ -14,7 +14,8 @@ CREATE TABLE Persons (
   Name VARCHAR(100) NOT NULL,
   BirthDate DATE NOT NULL,
   DeathDate DATE,
-  Location TEXT,
+  Lat DECIMAL(10,8),
+  Lon DECIMAL(11,8),
   Gender CHAR(1) NOT NULL
 );
 
