@@ -170,8 +170,7 @@ export default function MainPage() {
             }
 
             // --- 4️⃣ Update UI ---
-            setRawPersons(prev => [...prev, personData]);
-            if (setPersons) setPersons(prev => [...prev, personData]);
+            fetchPersons();
 
             setIsFormOpen(false);
             setPickedCoords(null);

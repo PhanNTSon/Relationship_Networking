@@ -1,4 +1,5 @@
-import { createContext, useState } from "react"
+import { createContext, useState, useEffect } from "react"
+import { supabase } from "../components/supabaseClient"
 
 /**
  * @typedef {Object} Relationship
@@ -45,6 +46,27 @@ export function AppProvider({ children }) {
         role,
         setRole
     }
+
+    useEffect(() => {
+        let logoutTimer;
+
+        const setupAutoLogout = async () => {
+            const { data } = await supabase.auth.getSession();
+
+            if (data.session) {
+                logoutTimer = setTimeout(async () => {
+                    await supabase.auth.signOut();
+                    window.location.href = "/";
+                }, 15 * 60 * 1000); // 15 phút
+            }
+        };
+
+        setupAutoLogout();
+
+        return () => {
+            if (logoutTimer) clearTimeout(logoutTimer);
+        };
+    }, []);
 
     return (
         <AppCtx.Provider value={value}>

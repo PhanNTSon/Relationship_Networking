@@ -360,7 +360,7 @@
         left: 0;
         right: 0;
         height: 40vh;
-        transform: translateY(calc(40vh - 50px));
+        transform: translateY(calc(40vh - 80px));
         transition: transform 0.5s ease-in-out;
         background-color: aliceblue;
         border-radius: 15px 15px 0 0;
@@ -378,14 +378,17 @@
     }
 
     #person-detail-container button {
-        height: 50px;
+        height: 80px;
         width: 100%;
         border-radius: 15px 15px 0 0;
         border: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     #person-info {
-        height: calc(40vh - 50px);
+        height: calc(45vh - 80px);
     }
 
     #add-form {
