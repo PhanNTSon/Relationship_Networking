@@ -1,5 +1,8 @@
-# Relationship Networking Project
+# UPDATE
+Due to fast production needed, **Infra** and **backend** will stop developing for now.
+Changing technology from **AWS** to **Supabase**. 
 
+# Relationship Networking Project
 ## Introduction
 This is a self-project which I choose just for fun.<br/>
 The main goal here is to improve my skill in CI/CD, IaC with Terraform and system design.<br/>

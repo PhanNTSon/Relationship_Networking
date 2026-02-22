@@ -1,3 +1,6 @@
+# UPDATE
+This folder is currently pausing. 
+
 # Relationship Website Infrastructure
 Dự án này chứa mã nguồn Terraform để triển khai cơ sở hạ tầng cho hệ thống "Relationship Website". Kiến trúc sử dụng mô hình Serverless kết hợp với VPC để bảo mật lớp dữ liệu.
 
