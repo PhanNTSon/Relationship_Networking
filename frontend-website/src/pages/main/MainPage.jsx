@@ -4,6 +4,7 @@ import "./MainPage.css";
 import { AppCtx } from "../../context/AppContext";
 import axios from "axios"
 import { mockPersons } from "./mock";
+import { supabase } from "../../components/supabaseClient";
 
 export default function MainPage() {
 
@@ -37,7 +38,7 @@ export default function MainPage() {
         fetchPersons()
     }, [])
 
-    function fetchPersons() {
+    async function fetchPersons() {
 
         axios.get("")
             .then(res => {
@@ -47,6 +48,12 @@ export default function MainPage() {
             .catch((err) => {
 
             })
+
+        const { data, error } = await supabase
+            .from("relationships")
+            .select("*");
+
+        console.log(data);
     }
 
     return (
