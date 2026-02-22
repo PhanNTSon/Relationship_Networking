@@ -120,7 +120,8 @@
 
 #dashboard-btn,
 #tool-btns,
-#person-detail-container {
+#person-detail-container,
+#logout-btn-section {
     pointer-events: all;
 }
 
@@ -152,6 +153,24 @@
     padding: 5px 3px;
     align-items: center;
     justify-content: space-evenly;
+    position: relative;
+}
+
+#setting-btn {
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    right: 0;
+    width: 36px;
+    height: 36px;
+    padding: 2px;
+    border-radius: 50%;
+    border: 1px dashed rgb(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    pointer-events: all;
 }
 
 #detail img {
@@ -310,6 +329,30 @@
     object-fit: cover;
 }
 
+#logout-btn-section {
+    bottom: 10px;
+    left: 10px;
+    transform: translateX(0);
+    transition: transform 0.3s ease-in-out;
+}
+
+#logout-btn-section.hidden {
+    transform: translateX(-50px);
+    transition: transform 0.3s ease-in-out;
+}
+
+#logout-btn-section button {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 1px solid rgb(0, 0, 0, 0.2);
+    background-color: white;
+
+}
+
 @media screen and (max-width: 430px) {
 
     #person-detail-container {
@@ -358,9 +401,9 @@
 
     #add-form-body {
         width: 95%;
-        pointer-events: all;
         border-radius: 0 25px 25px 0;
         padding: 10px 5px;
+        pointer-events: all;
     }
 }
 
@@ -404,5 +447,23 @@
     #person-info {
         width: calc(40vw - 50px);
         height: 100%;
+    }
+
+    #add-form {
+        width: 40%;
+        height: 60%;
+        top: 15vh;
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #add-form-body {
+        width: 95%;
+        border-radius: 0 25px 25px 0;
+        padding: 10px 5px;
+        pointer-events: all;
     }
 }

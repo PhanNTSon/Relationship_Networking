@@ -6,10 +6,11 @@ import LoginPage from './pages/login/LoginPage'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 function AppContent() {
+  
   return (
     <Routes>
-      <Route path="/" element={<MainPage />} />
-      <Route path="/login" element={<LoginPage />} />
+      <Route path="/main" element={<MainPage />} />
+      <Route path="/" element={<LoginPage />} />
     </Routes>
   )
 }
