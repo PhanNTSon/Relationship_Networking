@@ -3,35 +3,52 @@
 CREATE DATABASE relationship_network_db;
 
 -- Tạo bảng Relationships
-CREATE TABLE Relationships (
-  Id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  Type VARCHAR(50) NOT NULL
+CREATE TABLE relationships (
+  id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  type VARCHAR(50) NOT NULL
 );
 
 -- Tạo bảng Persons
-CREATE TABLE Persons (
-  Id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  Name VARCHAR(100) NOT NULL,
-  BirthDate DATE NOT NULL,
-  DeathDate DATE,
-  Lat DECIMAL(10,8),
-  Lon DECIMAL(11,8),
-  Gender CHAR(1) NOT NULL
+CREATE TABLE persons (
+  id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  birth_date DATE NOT NULL,
+  death_date DATE,
+  lat DECIMAL(10,8),
+  lon DECIMAL(11,8),
+  gender CHAR(1) NOT NULL
 );
 
 -- Tạo bảng PersonRelationships
-CREATE TABLE PersonRelationships (
-  Id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  PersonId INT NOT NULL,
-  RelatedPersonId INT NOT NULL,
-  RelationshipId INT NOT NULL,
-  CONSTRAINT fk_person FOREIGN KEY (PersonId) REFERENCES Persons(Id),
-  CONSTRAINT fk_related_person FOREIGN KEY (RelatedPersonId) REFERENCES Persons(Id),
-  CONSTRAINT fk_relationship FOREIGN KEY (RelationshipId) REFERENCES Relationships(Id)
+CREATE TABLE person_relationships (
+  id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  person_id INTEGER NOT NULL,
+  related_person_id INTEGER NOT NULL,
+  relationship_id INTEGER NOT NULL,
+
+  CONSTRAINT fk_person
+    FOREIGN KEY (person_id)
+    REFERENCES persons(id)
+    ON DELETE CASCADE,
+
+  CONSTRAINT fk_related_person
+    FOREIGN KEY (related_person_id)
+    REFERENCES persons(id)
+    ON DELETE CASCADE,
+
+  CONSTRAINT fk_relationship
+    FOREIGN KEY (relationship_id)
+    REFERENCES relationships(id),
+
+  CONSTRAINT no_self_relation
+    CHECK (person_id <> related_person_id),
+
+  CONSTRAINT unique_directed_relation
+    UNIQUE (person_id, related_person_id, relationship_id)
 );
 
 -- Dữ liệu mẫu
-INSERT INTO Relationships (Type) VALUES
+INSERT INTO relationships (type) VALUES
 ('Chồng'),
 ('Vợ'),
 ('Con'),
