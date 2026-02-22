@@ -35,6 +35,89 @@
     position: absolute;
 }
 
+#loader-layer {
+    z-index: 2;
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    background-color: rgb(255, 255, 255, 0.8);
+
+}
+
+#loader-layer.loading {
+    pointer-events: all;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+
+}
+
+#loader-layer .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #ccc;
+    /* màu viền nhạt */
+    border-top: 4px solid #3498db;
+    /* màu viền trên nổi bật */
+    border-radius: 50%;
+    /* bo tròn thành hình tròn */
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-text {
+    display: inline-block;
+}
+
+.loading-text span {
+    opacity: 0;
+    animation: blink 1.5s infinite;
+}
+
+.loading-text span:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.loading-text span:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.loading-text span:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+
 #dashboard-btn,
 #tool-btns,
 #person-detail-container {
@@ -145,7 +228,7 @@
 
 }
 
-@media screen and (max-width: 2570px) {
+@media screen and (min-width: 430px) {
     #person-detail-container {
         top: 0;
         bottom: 0;
@@ -176,6 +259,11 @@
         border-radius: 15px 0 0 15px;
         border: none;
     }
+
+    #person-detail-container button i{
+        transform: rotate(270deg);
+    }
+
 
     #person-info {
         width: calc(40vw - 50px);

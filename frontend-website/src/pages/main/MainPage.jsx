@@ -17,6 +17,22 @@ export default function MainPage() {
     const [rawPersons, setRawPersons] = useState([]);
     const [zoomMode, setZoomMode] = useState(null);
 
+    // State mới cho việc lấy tọa độ
+    const [isPickingMode, setIsPickingMode] = useState(false);
+    const [pickedCoords, setPickedCoords] = useState(null);
+
+    const [isMapLoaded, setIsMapLoaded] = useState(false);
+
+    // Xử lý hủy chọn khi click map
+    const handleMapClick = () => {
+        setSelectedPersonId(null);
+        setZoomMode(null); // Reset luôn cả zoomMode nếu cần
+    };
+
+    // Xử lý nhận tọa độ khi kéo map
+    const handleCenterChange = (coords) => {
+        setPickedCoords(coords);
+    };
 
     useEffect(() => {
         function updateSize() {
@@ -44,6 +60,9 @@ export default function MainPage() {
             .then(res => {
                 setRawPersons(mockPersons);
                 setPersons(mockPersons.map(person => [person.id, person]))
+                setTimeout(() => {
+                    setIsMapLoaded(true);
+                }, 500);
             })
             .catch((err) => {
 
@@ -70,6 +89,9 @@ export default function MainPage() {
                         }}
                         selectedPersonId={selectedPersonId}
                         zoomMode={zoomMode}
+                        onMapClick={handleMapClick}
+                        isPickingMode={isPickingMode}
+                        onCenterChange={handleCenterChange}
                     />
 
                 </div>
@@ -140,9 +162,10 @@ export default function MainPage() {
 
                     </div>
                 </div>
-                {/* <div className="layers" id="loader-layer">
-                    
-                </div> */}
+                <div className={`layers ${isMapLoaded ? "" : "loading"}`} id="loader-layer">
+                    <div className="spinner"></div>
+                    <h3>Loading data<span className="loading-text"> <span>. </span><span>. </span><span>. </span> </span></h3>
+                </div>
             </div>
         </div >
     )
