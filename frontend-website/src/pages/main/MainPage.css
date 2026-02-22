@@ -190,6 +190,126 @@
     width: 50%;
 }
 
+#picking-header {
+    background-color: rgb(250, 250, 250);
+    padding: 5px 10px;
+    border-radius: 0 20px 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+#picking-header.picking {
+    transform: translateX(0);
+    transition: transform 0.3s ease-in-out;
+}
+
+#picking-header button {
+    border-radius: 15px;
+    border: none;
+    pointer-events: all;
+}
+
+#picking-header .green {
+    background-color: rgb(150, 254, 98);
+}
+
+#picking-header .red {
+    background-color: rgb(235, 67, 67);
+}
+
+#add-form-body {
+    transform: translateX(-130%);
+    transition: transform 0.3s ease-in-out;
+    background-color: white;
+    overflow-y: scroll;
+
+}
+
+#add-form-body.form-open {
+    transform: translateX(0);
+    transition: transform 0.3s ease-in-out;
+}
+
+#add-form-body form div {
+    margin-bottom: 15px;
+}
+
+#add-form-body label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+#add-form-body input,
+#add-form-body select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+#add-form-body input:focus,
+#add-form-body select:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 4px rgba(52, 152, 219, 0.3);
+}
+
+#add-form-body button {
+    padding: 10px 16px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+#add-form-body button[type="submit"] {
+    background-color: #3498db;
+    color: #fff;
+}
+
+#add-form-body button[type="submit"]:hover {
+    background-color: #2980b9;
+}
+
+#add-form-body button[type="button"] {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+#add-form-body button[type="button"]:hover {
+    background-color: #bdbdbd;
+}
+
+#image-box {
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    width: 150px;
+    height: 150px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#image-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 @media screen and (max-width: 430px) {
 
     #person-detail-container {
@@ -225,7 +345,23 @@
         height: calc(40vh - 50px);
     }
 
+    #add-form {
+        width: 100%;
+        height: 60%;
+        top: 15vh;
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
 
+    #add-form-body {
+        width: 95%;
+        pointer-events: all;
+        border-radius: 0 25px 25px 0;
+        padding: 10px 5px;
+    }
 }
 
 @media screen and (min-width: 430px) {
@@ -260,7 +396,7 @@
         border: none;
     }
 
-    #person-detail-container button i{
+    #person-detail-container button i {
         transform: rotate(270deg);
     }
 

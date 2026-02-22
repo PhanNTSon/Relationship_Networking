@@ -57,6 +57,13 @@ const MapEventsHandler = ({ onMapClick, isPickingMode, onCenterChange }) => {
         }
     });
 
+    useEffect(() => {
+        if (isPickingMode && onCenterChange) {
+            const center = map.getCenter();
+            onCenterChange({ lat: center.lat, lon: center.lng });
+        }
+    }, [isPickingMode]);
+
     return null;
 };
 
