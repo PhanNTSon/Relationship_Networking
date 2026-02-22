@@ -56,3 +56,64 @@ INSERT INTO relationships (type) VALUES
 ('Mẹ'),
 ('Bạn bè'),
 ('Đồng nghiệp');
+
+ALTER TABLE public.relationships ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.persons ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.person_relationships ENABLE ROW LEVEL SECURITY;
+
+-- Chỉ authenticated mới được SELECT
+CREATE POLICY "Authenticated can view relationships"
+ON public.relationships
+FOR SELECT
+TO authenticated
+USING (true);
+
+CREATE POLICY "Authenticated can view persons"
+ON public.persons
+FOR SELECT
+TO authenticated
+USING (true);
+
+CREATE POLICY "Authenticated can insert persons"
+ON public.persons
+FOR INSERT
+TO authenticated
+WITH CHECK (true);
+
+CREATE POLICY "Authenticated can update persons"
+ON public.persons
+FOR UPDATE
+TO authenticated
+USING (true)
+WITH CHECK (true);
+
+CREATE POLICY "Authenticated can delete persons"
+ON public.persons
+FOR DELETE
+TO authenticated
+USING (true);
+
+CREATE POLICY "Authenticated can view person relationships"
+ON public.person_relationships
+FOR SELECT
+TO authenticated
+USING (true);
+
+CREATE POLICY "Authenticated can insert person relationships"
+ON public.person_relationships
+FOR INSERT
+TO authenticated
+WITH CHECK (true);
+
+CREATE POLICY "Authenticated can update person relationships"
+ON public.person_relationships
+FOR UPDATE
+TO authenticated
+USING (true)
+WITH CHECK (true);
+
+CREATE POLICY "Authenticated can delete person relationships"
+ON public.person_relationships
+FOR DELETE
+TO authenticated
+USING (true);
