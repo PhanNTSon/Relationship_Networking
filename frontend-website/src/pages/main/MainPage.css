@@ -103,6 +103,57 @@
     animation-delay: 0.6s;
 }
 
+#logout-layer {
+    z-index: 3;
+    height: 100%;
+    width: 100%;
+    transition: opacity 0.3s ease-in-out;
+    background: rgb(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#logout-box {
+    display: flex;
+    background-color: rgb(245, 245, 245);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    padding: 15px;
+    border-radius: 15px;
+    transform: translateY(0);
+    user-select: none;
+    transition: transform 0.3s ease-in-out;
+}
+
+#options {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+#options button {
+    border: 1px solid rgb(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+
+#logout-layer.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+}
+
+#logout-box.hidden {
+    transform: translateY(-100vh);
+    pointer-events: none;
+    transition: transform 0.3s ease-in-out;
+}
+
 @keyframes blink {
     0% {
         opacity: 0;
@@ -130,12 +181,24 @@
     right: 5px;
     transform: translateX(0);
     transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
 }
 
 #tool-btns.hidden {
     pointer-events: none;
     transform: translateX(100px);
     transition: transform 0.3s ease-in-out;
+}
+
+#tool-btns button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid rgb(0, 0, 0, 0.2);
 }
 
 #person-info {
@@ -154,6 +217,7 @@
     align-items: center;
     justify-content: space-evenly;
     position: relative;
+    gap: 5%;
 }
 
 #setting-btn {
@@ -175,6 +239,9 @@
 
 #detail img {
     width: 25%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border: 3px solid #FFB570;
 }
 
 .info-stack {
@@ -195,18 +262,21 @@
 }
 
 .info-stack .other-person {
-    width: calc(100% / 3);
     padding: 3px 5px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex: 0 0 calc(100%/3);
+    flex: 0 0 calc(100%/4);
     box-sizing: border-box;
 }
 
 .other-person img {
-    width: 50%;
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border: 3px solid #FFB570;
+
 }
 
 #picking-header {
@@ -233,11 +303,11 @@
     pointer-events: all;
 }
 
-#picking-header .green {
+.green {
     background-color: rgb(150, 254, 98);
 }
 
-#picking-header .red {
+.red {
     background-color: rgb(235, 67, 67);
 }
 
@@ -347,10 +417,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 50%;
+    border-radius: 5px;
     border: 1px solid rgb(0, 0, 0, 0.2);
     background-color: white;
 
+}
+
+#person-detail-container button {
+    border: 2px solid rgb(0, 0, 0, 0.4)
 }
 
 @media screen and (max-width: 430px) {
@@ -359,8 +433,8 @@
         bottom: 0;
         left: 0;
         right: 0;
-        height: 40vh;
-        transform: translateY(calc(40vh - 80px));
+        height: 45vh;
+        transform: translateY(calc(45vh - 80px));
         transition: transform 0.5s ease-in-out;
         background-color: aliceblue;
         border-radius: 15px 15px 0 0;
@@ -368,7 +442,7 @@
 
     #person-detail-container.hidden {
         pointer-events: none;
-        transform: translateY(40vh);
+        transform: translateY(45vh);
         transition: transform 0.5s ease-in-out;
     }
 
@@ -381,7 +455,6 @@
         height: 80px;
         width: 100%;
         border-radius: 15px 15px 0 0;
-        border: none;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -439,7 +512,6 @@
         width: 50px;
         height: 100%;
         border-radius: 15px 0 0 15px;
-        border: none;
     }
 
     #person-detail-container button i {

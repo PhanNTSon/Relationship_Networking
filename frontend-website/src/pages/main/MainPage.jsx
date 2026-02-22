@@ -13,6 +13,7 @@ export default function MainPage() {
     const [size, setSize] = useState({ width: 0, height: 0 })
     const [selectedPersonId, setSelectedPersonId] = useState(null)
     const [openDetail, setOpenDetail] = useState(false)
+    const [openLogout, setOpenLogout] = useState(false)
 
     const { jwt, role, persons, setPersons } = useContext(AppCtx)
     const [rawPersons, setRawPersons] = useState([]);
@@ -262,7 +263,7 @@ export default function MainPage() {
                                                     alt={person.name}
                                                 />
                                                 <div>
-                                                    <h3>{person.name}</h3>
+                                                    <h2>{person.name}</h2>
                                                     <p>{person.gender.toUpperCase() === "M" ? "Nam" : "Nữ"}</p>
                                                     <p>{person.birth_date} - {person.death_date === null ? "Hiện tại" : person.death_date}</p>
                                                     <p>Location: {person.lon} - {person.lat}</p>
@@ -274,7 +275,7 @@ export default function MainPage() {
                                             ) : (
                                                 Object.entries(groupRelationshipbyType).map(([type, personList]) => (
                                                     <div className="info-stack" key={type}>
-                                                        <h4>{type}:</h4>
+                                                        <h3>{type}:</h3>
                                                         <div className="other-person-container">
                                                             {personList.map(p => (
                                                                 <div
@@ -321,12 +322,21 @@ export default function MainPage() {
                         </div>
                     </div>
                     <div className={`section ${selectedPersonId ? "hidden" : ""}`} id="logout-btn-section">
-                        <button onClick={logout}><i className="material-icons">logout</i></button>
+                        <button onClick={() => setOpenLogout(true)}><i className="material-icons">logout</i></button>
                     </div>
                 </div>
                 <div className={`layers ${isMapLoaded ? "" : "loading"}`} id="loader-layer">
                     <div className="spinner"></div>
                     <h3>Loading data<span className="loading-text"> <span>. </span><span>. </span><span>. </span> </span></h3>
+                </div>
+                <div className={`layers ${openLogout ? "" : "hidden"}`} id="logout-layer">
+                    <div className={`${openLogout ? "" : "hidden"}`} id="logout-box">
+                        <h2>Đăng xuất?</h2>
+                        <div id="options">
+                            <button onClick={logout} className="green">YES</button>
+                            <button onClick={() => setOpenLogout(false)} className="red">NO</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div >
