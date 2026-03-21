@@ -1,0 +1,77 @@
+.person-select-container {
+    position: relative;
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+}
+
+.person-select-header {
+    border: 1px solid #dcdde1;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    transition: all 0.2s;
+    min-height: 42px;
+    box-sizing: border-box;
+}
+.person-select-header:hover {
+    border-color: #b2bec3;
+}
+
+.person-select-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    color: #2c3e50;
+}
+
+.person-select-header img,
+.person-select-option img {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #eee;
+}
+
+.person-select-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    border: 1px solid #dcdde1;
+    border-radius: 6px;
+    background: #fff;
+    max-height: 220px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    padding: 6px 0;
+}
+
+.person-select-dropdown::-webkit-scrollbar {
+    width: 6px;
+}
+.person-select-dropdown::-webkit-scrollbar-thumb {
+    background: #bdc3c7;
+    border-radius: 10px;
+}
+
+.person-select-option {
+    padding: 8px 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.95rem;
+    color: #2d3436;
+}
+
+.person-select-option:hover {
+    background-color: #f1f2f6;
+}
