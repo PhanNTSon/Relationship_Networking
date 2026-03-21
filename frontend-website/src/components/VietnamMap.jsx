@@ -2,6 +2,24 @@ import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, useMap, useMapEvents } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import MarkerClusterGroup from "@changey/react-leaflet-markercluster";
+import "leaflet.markercluster/dist/MarkerCluster.css";
+import "leaflet.markercluster/dist/MarkerCluster.Default.css";
+
+const createClusterCustomIcon = function (cluster) {
+    return L.divIcon({
+        html: `<div style="
+            width: 40px; height: 40px; border-radius: 50%;
+            background-color: #FFB570; color: white;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 16px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+            border: 2px solid white;
+        "><span>${cluster.getChildCount()}</span></div>`,
+        className: 'custom-cluster-marker',
+        iconSize: L.point(40, 40, true),
+    });
+};
 
 const vietnamBounds = [
     [8.0, 102.0],  // Góc dưới cùng bên trái (Tây Nam - Kiên Giang/Cà Mau)
@@ -151,18 +169,25 @@ const VietnamMap = ({
                     onCenterChange={onCenterChange}
                 />
 
-                {personList.map((person) => (
-                    <Marker
-                        key={person.id}
-                        position={[person.lat, person.lon]}
-                        icon={createCustomIcon(person.avatar)}
-                        eventHandlers={{
-                            click: () => {
-                                if (seePersonDetail) seePersonDetail(person.id);
-                            }
-                        }}
-                    />
-                ))}
+                <MarkerClusterGroup
+                    chunkedLoading
+                    spiderfyOnMaxZoom={true}
+                    showCoverageOnHover={false}
+                    iconCreateFunction={createClusterCustomIcon}
+                >
+                    {personList.map((person) => (
+                        <Marker
+                            key={person.id}
+                            position={[person.lat, person.lon]}
+                            icon={createCustomIcon(person.avatar)}
+                            eventHandlers={{
+                                click: () => {
+                                    if (seePersonDetail) seePersonDetail(person.id);
+                                }
+                            }}
+                        />
+                    ))}
+                </MarkerClusterGroup>
             </MapContainer>
         </div>
     );
